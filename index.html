@@ -5,234 +5,401 @@
   <title>Ownership Tutorial — Vibe Coded Studio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Build. Publish. Scale. Own. The Vibe Coded Studio ownership path." />
+  <meta name="theme-color" content="#070b14" />
 
   <style>
-    :root {
-      --bg:#070b14;
-      --panel:#0b1220;
-      --text:#e8ecf1;
-      --muted:#9aa4b2;
-      --accent:#7dd3fc;
-      --border:rgba(255,255,255,.12);
+    /* === Dashboard Theme Tokens (match) === */
+    :root{
+      --bg0:#070b14;
+      --bg1:#0b1220;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --shadow: 0 16px 48px rgba(0,0,0,.45);
       --radius:16px;
-      --max:880px;
+      --radius2:22px;
+      --pill:999px;
+
+      /* Accent (dashboard-like cyan) */
+      --accent:#7dd3fc;
+      --accent2:#60a5fa;
+
+      /* Optional status colors */
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
     }
 
-    * { box-sizing: border-box; }
-    body {
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
       margin:0;
-      background:linear-gradient(180deg,#05080f,#070b14);
       color:var(--text);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       line-height:1.6;
+
+      /* === Dashboard Background: gradient + subtle grid === */
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(96,165,250,.16), transparent 55%),
+        radial-gradient(900px 650px at 110% 10%, rgba(125,211,252,.12), transparent 55%),
+        radial-gradient(900px 650px at 60% 120%, rgba(96,165,250,.10), transparent 55%),
+        linear-gradient(180deg, #05080f 0%, var(--bg0) 35%, #05080f 100%);
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(900px 520px at 50% 10%, black 35%, transparent 70%);
     }
 
-    header {
-      padding:48px 20px 32px;
-      text-align:center;
-    }
+    a{color:inherit}
+    .wrap{max-width:980px; margin:0 auto; padding:24px 18px 84px;}
 
-    header h1 {
-      margin:0;
-      font-size:2.2rem;
-      letter-spacing:.02em;
-    }
-
-    header p {
-      margin-top:12px;
-      color:var(--muted);
-      max-width:720px;
-      margin-left:auto;
-      margin-right:auto;
-    }
-
-    main {
-      max-width:var(--max);
-      margin:0 auto;
-      padding:0 20px 80px;
-    }
-
-    section {
-      background:var(--panel);
+    /* === Topbar to mirror dashboard shell === */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 18px;
       border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:28px;
-      margin-bottom:28px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border-radius:var(--radius2);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
-
-    h2 {
-      margin-top:0;
-      font-size:1.4rem;
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:0;
     }
-
-    h3 {
-      margin-top:24px;
-      font-size:1.1rem;
+    .brandMark{
+      width:38px; height:38px; border-radius:12px;
+      border:1px solid var(--border);
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(125,211,252,.75), transparent 60%),
+        radial-gradient(16px 16px at 70% 60%, rgba(96,165,250,.55), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: 0 12px 34px rgba(0,0,0,.35);
     }
-
-    p { margin:12px 0; }
-
-    ul {
-      margin:12px 0 12px 20px;
+    .brandText{min-width:0}
+    .brandText h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.02em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-
-    li { margin:6px 0; }
-
-    .phase {
-      border-left:4px solid var(--accent);
-      padding-left:16px;
-      margin-top:16px;
-    }
-
-    .note {
+    .brandText p{
+      margin:2px 0 0;
       color:var(--muted);
-      font-size:.95rem;
+      font-size:12.5px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .cta {
+    .pillRow{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+    .pill{
+      font-size:12px;
+      color:rgba(255,255,255,.86);
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      padding:6px 10px;
+      border-radius:var(--pill);
+    }
+
+    /* === Hero === */
+    .hero{
       text-align:center;
-      margin-top:32px;
+      padding:34px 10px 18px;
+    }
+    .heroTitle{
+      margin:0;
+      font-size:42px;
+      letter-spacing:-.02em;
+    }
+    .heroSub{
+      margin:10px auto 0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:16px;
     }
 
-    .cta a {
+    /* === Cards (dashboard-like) === */
+    .card{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+      border-radius:var(--radius2);
+      padding:22px 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin-top:18px;
+    }
+    .card h2{
+      margin:0 0 12px;
+      font-size:22px;
+      letter-spacing:-.01em;
+    }
+    .card p{margin:10px 0; color:rgba(255,255,255,.88)}
+    .muted{color:var(--muted)}
+    .tiny{color:var(--muted2); font-size:13px}
+
+    /* === Phase list with accent rail === */
+    .phaseList{display:grid; gap:14px; margin-top:10px}
+    .phaseItem{
+      display:grid;
+      grid-template-columns: 6px 1fr;
+      gap:14px;
+      align-items:start;
+      padding:10px 0;
+    }
+    .rail{
+      width:6px; height:100%;
+      border-radius:999px;
+      background:linear-gradient(180deg, var(--accent), var(--accent2));
+      opacity:.95;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .phaseItem h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.01em;
+    }
+    .phaseItem p{margin:6px 0 0; color:var(--muted)}
+
+    /* === Lists / bullets === */
+    ul{margin:10px 0 0 18px}
+    li{margin:7px 0; color:var(--muted)}
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      margin-top:10px;
+    }
+    @media (max-width: 760px){
+      .split{grid-template-columns:1fr}
+      .heroTitle{font-size:34px}
+      .topbar{flex-direction:column; align-items:flex-start}
+      .pillRow{justify-content:flex-start}
+    }
+
+    /* === Steps === */
+    .steps{display:grid; gap:14px; margin-top:12px}
+    .step{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.14);
+      border-radius:16px;
+      padding:14px 14px;
+    }
+    .stepTitle{
+      margin:0;
+      font-size:16px;
+    }
+    .stepBody{margin:8px 0 0; color:var(--muted)}
+    .kbd{
       display:inline-block;
+      padding:2px 8px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:rgba(255,255,255,.88);
+      font-size:12px;
+      line-height:1.6;
+      vertical-align:middle;
+      white-space:nowrap;
+    }
+
+    /* === CTA Button (dashboard vibe) === */
+    .ctaWrap{display:flex; justify-content:center; margin-top:18px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
       padding:14px 22px;
       border-radius:999px;
-      background:var(--accent);
-      color:#05080f;
+      border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg, rgba(125,211,252,.92), rgba(96,165,250,.88));
+      color:#06101c;
+      font-weight:700;
       text-decoration:none;
-      font-weight:600;
+      box-shadow: 0 16px 46px rgba(0,0,0,.42);
     }
+    .btn:active{transform: translateY(1px)}
+    .btn small{font-weight:600; opacity:.88}
 
-    footer {
+    /* === Footer === */
+    footer{
       text-align:center;
-      color:var(--muted);
-      padding:40px 20px;
-      font-size:.9rem;
+      color:var(--muted2);
+      margin-top:34px;
+      padding:20px 10px 0;
+      font-size:13px;
     }
   </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<header>
-  <h1>Ownership Tutorial</h1>
-  <p>
-    Vibe Coded Studio is not about convenience.  
-    It is about owning the thought that mattered enough to build.
-  </p>
-</header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brandMark" aria-hidden="true"></div>
+        <div class="brandText">
+          <h1>Vibe Coded Studio</h1>
+          <p>Ownership Tutorial · Publish what you built</p>
+        </div>
+      </div>
+      <div class="pillRow">
+        <span class="pill">Ownership-first</span>
+        <span class="pill">No backend</span>
+        <span class="pill">GitHub Pages</span>
+      </div>
+    </div>
 
-<main>
+    <div class="hero">
+      <h2 class="heroTitle">Ownership Tutorial</h2>
+      <p class="heroSub">
+        Vibe Coded Studio is not about convenience. It is about owning the thought that mattered enough to build.
+      </p>
+    </div>
 
-<section>
-  <h2>What This App Is</h2>
-  <p>
-    Vibe Coded Studio turns a single clear thought into real files —
-    structure you control and assets you own.
-  </p>
-  <p>
-    It does not publish for you.  
-    It does not host for you.  
-    That responsibility is intentional.
-  </p>
-</section>
+    <section class="card">
+      <h2>What This App Is</h2>
+      <p>Vibe Coded Studio turns a single clear thought into real files — structure you control and assets you own.</p>
+      <p class="muted">It does not publish for you. It does not host for you. That responsibility is intentional.</p>
+    </section>
 
-<section>
-  <h2>The Path</h2>
+    <section class="card">
+      <h2>The Path</h2>
+      <div class="phaseList">
+        <div class="phaseItem">
+          <div class="rail" aria-hidden="true"></div>
+          <div>
+            <h3>Phase 1 — Build &amp; Publish</h3>
+            <p>You generate files and make them public yourself.</p>
+          </div>
+        </div>
 
-  <div class="phase">
-    <h3>Phase 1 — Build & Publish</h3>
-    <p>You generate files and make them public yourself.</p>
+        <div class="phaseItem">
+          <div class="rail" aria-hidden="true"></div>
+          <div>
+            <h3>Phase 2 — Scale with LLMs</h3>
+            <p>You use AI to iterate on structured, versioned assets.</p>
+          </div>
+        </div>
+
+        <div class="phaseItem">
+          <div class="rail" aria-hidden="true"></div>
+          <div>
+            <h3>Phase 3 — From Repo to Revenue</h3>
+            <p>You convert owned infrastructure into repeatable income.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Why GitHub — Not an App Store</h2>
+
+      <div class="split">
+        <div>
+          <p><strong>App stores</strong> optimize for speed and abstraction.</p>
+          <ul>
+            <li>You publish into their system</li>
+            <li>They control distribution and rules</li>
+            <li>Access can be changed or removed</li>
+          </ul>
+        </div>
+
+        <div>
+          <p><strong>GitHub</strong> is neutral infrastructure.</p>
+          <ul>
+            <li>You own the files</li>
+            <li>You control version history</li>
+            <li>You can leave at any time</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="tiny">This app chooses ownership over convenience — on purpose.</p>
+    </section>
+
+    <section class="card">
+      <h2>Phase 1 — Quick Publish (5–10 Minutes)</h2>
+
+      <div class="steps">
+        <div class="step">
+          <p class="stepTitle"><strong>Step 1 — Create a Repository</strong></p>
+          <p class="stepBody">
+            Go to <span class="kbd">github.com</span> → <span class="kbd">New repository</span> → <span class="kbd">Public</span> → <span class="kbd">Create</span>.
+            This is your asset container.
+          </p>
+        </div>
+
+        <div class="step">
+          <p class="stepTitle"><strong>Step 2 — Upload Your Files</strong></p>
+          <p class="stepBody">
+            Upload all generated files directly into the repo.
+            <strong>index.html must be at the root.</strong>
+          </p>
+        </div>
+
+        <div class="step">
+          <p class="stepTitle"><strong>Step 3 — Enable GitHub Pages</strong></p>
+          <p class="stepBody">
+            <span class="kbd">Settings</span> → <span class="kbd">Pages</span> → <span class="kbd">Deploy from branch</span> → <span class="kbd">main</span> <span class="kbd">/root</span> → <span class="kbd">Save</span>.
+          </p>
+        </div>
+
+        <div class="step">
+          <p class="stepTitle"><strong>Step 4 — Verify</strong></p>
+          <p class="stepBody">
+            Open the URL GitHub provides. If it loads, you published successfully.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Common Mistakes</h2>
+      <ul>
+        <li>Uploading a ZIP instead of files</li>
+        <li>Missing index.html at root</li>
+        <li>Forgetting to enable Pages</li>
+        <li>Expecting BUILD to auto-publish</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Advisory Boundary</h2>
+      <p class="muted">
+        If you want help scaling repos, structuring systems, or designing revenue paths — that is advisory work.
+      </p>
+
+      <div class="ctaWrap">
+        <a class="btn" href="https://cal.com/selfdeficonsultant/15min" rel="noopener">
+          Book SD Advisory <small>→</small>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      Vibe Coded Studio · Ownership First · Powered by Self-Defi
+    </footer>
+
   </div>
-
-  <div class="phase">
-    <h3>Phase 2 — Scale with LLMs</h3>
-    <p>You use AI to iterate on structured, versioned assets.</p>
-  </div>
-
-  <div class="phase">
-    <h3>Phase 3 — From Repo to Revenue</h3>
-    <p>You convert owned infrastructure into repeatable income.</p>
-  </div>
-</section>
-
-<section>
-  <h2>Why GitHub — Not an App Store</h2>
-
-  <p><strong>App stores</strong> optimize for speed and abstraction.</p>
-  <ul>
-    <li>You publish into their system</li>
-    <li>They control distribution and rules</li>
-    <li>Access can be changed or removed</li>
-  </ul>
-
-  <p><strong>GitHub</strong> is neutral infrastructure.</p>
-  <ul>
-    <li>You own the files</li>
-    <li>You control version history</li>
-    <li>You can leave at any time</li>
-  </ul>
-
-  <p class="note">
-    This app chooses ownership over convenience — on purpose.
-  </p>
-</section>
-
-<section>
-  <h2>Phase 1 — Quick Publish (5–10 Minutes)</h2>
-
-  <h3>Step 1 — Create a Repository</h3>
-  <p>
-    Go to github.com → New repository → Public → Create.
-    This is your asset container.
-  </p>
-
-  <h3>Step 2 — Upload Your Files</h3>
-  <p>
-    Upload all generated files directly into the repo.
-    <strong>index.html must be at the root.</strong>
-  </p>
-
-  <h3>Step 3 — Enable GitHub Pages</h3>
-  <p>
-    Settings → Pages → Deploy from branch → main /root → Save.
-  </p>
-
-  <h3>Step 4 — Verify</h3>
-  <p>
-    Open the URL GitHub provides.
-    If it loads, you published successfully.
-  </p>
-</section>
-
-<section>
-  <h2>Common Mistakes</h2>
-  <ul>
-    <li>Uploading a ZIP instead of files</li>
-    <li>Missing index.html at root</li>
-    <li>Forgetting to enable Pages</li>
-    <li>Expecting BUILD to auto-publish</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Advisory Boundary</h2>
-  <p>
-    If you want help scaling repos, structuring systems,
-    or designing revenue paths — that is advisory work.
-  </p>
-
-  <div class="cta">
-    <a href="https://cal.com/selfdeficonsultant/15min">Book SD Advisory</a>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  Vibe Coded Studio · Ownership First · Powered by Self-Defi
-</footer>
-
 </body>
 </html>
